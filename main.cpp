@@ -78,10 +78,12 @@ int main(int argc, char** argv){
     std::uint32_t idx = 1;
     while(!fin_target.eof()){
         fin_target >> inp;
-        inp.score = LevenshteinDistance(source.source, inp.source);
-        if(inp.score < top_sequences[0].score){
-            top_sequences.insert(std::lower_bound(top_sequences.begin(),top_sequences.end(), inp), inp);
-            top_sequences.erase(top_sequences.begin());
+        if(abs((std::int32_t)(inp.source.length()) - (std::int32_t)source.source.length()) <= top_sequences[0].score){
+            inp.score = LevenshteinDistance(source.source, inp.source);
+            if(inp.score < top_sequences[0].score){
+                top_sequences.insert(std::lower_bound(top_sequences.begin(),top_sequences.end(), inp), inp);
+                top_sequences.erase(top_sequences.begin());
+            }
         }
         std::cout << idx++ << '\n';
     }
